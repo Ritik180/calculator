@@ -58,28 +58,34 @@
 
 	<script>
 		function calculate(type) {
-			var num = document.getElementById("number").value;
-			var result = 0;
-			var startTime = new Date().getTime();
-			if (type == "square") {
-				result = num * num;
-				document.getElementById("number").value = result;
-			} else if (type == "cube") {
-				result = num * num * num;
-				document.getElementById("number").value = result;
-			} else if (type == "fibonacci") {
-				result = fib(num);
-				document.getElementById("number").value = result;
-			}
-			var endTime = new Date().getTime();
-			var elapsed = endTime - startTime;
-			document.getElementById("metrics").innerHTML = type.charAt(0).toUpperCase() + type.slice(1) + " took " + elapsed + " milliseconds.";
-		}
-		function fib(n) {
-  if (n < 2) {
-    return n;
-  }
-  return fib(n - 1) + fib(n - 2);
+    var num = document.getElementById("number").value;
+    var result = 0;
+    var startTime = new Date().getTime();
+    if (type == "square") {
+        result = num * num;
+        document.getElementById("number").value = result;
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "/store_square.php", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("number=" + num + "&result=" + result);
+    } else if (type == "cube") {
+        result = num * num * num;
+        document.getElementById("number").value = result;
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "/store_cube.php", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("number=" + num + "&result=" + result);
+    } else if (type == "fibonacci") {
+        result = fib(num);
+        document.getElementById("number").value = result;
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "/store_fibonacci.php", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("number=" + num + "&result=" + result);
+    }
+    var endTime = new Date().getTime();
+    var elapsed = endTime - startTime;
+    document.getElementById("metrics").innerHTML = type.charAt(0).toUpperCase() + type.slice(1) + " took " + elapsed + " milliseconds.";
 }
 		function clearInput() {
 		document.getElementById("number").value = "";
